@@ -1,25 +1,10 @@
 import type { Metadata, Viewport } from "next";
-import { Lora, Plus_Jakarta_Sans } from "next/font/google";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { JsonLd } from "@/components/JsonLd";
 import { SITE_CONFIG } from "@/lib/config";
 import { getOrganizationSchema, getWebSiteSchema } from "@/lib/seo";
 import "./globals.css";
-
-const plusJakartaSans = Plus_Jakarta_Sans({
-  subsets: ["latin", "latin-ext"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-sans",
-  display: "swap",
-});
-
-const lora = Lora({
-  subsets: ["latin", "latin-ext"],
-  weight: ["500", "600", "700"],
-  variable: "--font-serif",
-  display: "swap",
-});
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_CONFIG.siteUrl),
@@ -47,10 +32,21 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="tr"
-      className={`${plusJakartaSans.variable} ${lora.variable}`}
-    >
+    <html lang="tr">
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin="anonymous"
+        />
+        {/* eslint-disable-next-line @next/next/no-page-custom-font */}
+        <link
+          href="https://fonts.googleapis.com/css2?family=Lora:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+          rel="stylesheet"
+        />
+        <style>{`:root { --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif; --font-serif: 'Lora', Georgia, serif; }`}</style>
+      </head>
       <body className="flex min-h-screen flex-col font-sans">
         <a
           href="#ana-icerik"
