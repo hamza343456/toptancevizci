@@ -56,10 +56,6 @@ export function createPageMetadata({
   };
 }
 
-/**
- * Yalnızca doğrulanmış işletme bilgilerini içeren Organization JSON-LD üretir.
- * Bilinmeyen açık adres veya çalışma saati alanları dolu değilse eklenmez.
- */
 export function getOrganizationSchema() {
   const schema: Record<string, unknown> = {
     "@context": "https://schema.org",
@@ -118,18 +114,27 @@ export function getBreadcrumbSchema(items: BreadcrumbItem[]) {
   };
 }
 
+/**
+ * Sabit fiyat gösterilmeyen, teklif usulü tedarik sayfaları için
+ * Google Search Console ile tam uyumlu Service yapılandırılmış verisi üretir.
+ */
 export function getProductSchema(product: ProductInfo) {
   return {
     "@context": "https://schema.org",
-    "@type": "Product",
-    name: product.name,
+    "@type": "Service",
+    name: `${product.name} Satışı ve Tedariki`,
+    serviceType: "Ceviz Satışı ve Tedariki",
     description: product.shortDescription,
     image: `${SITE_CONFIG.siteUrl}${product.image}`,
     url: getCanonicalUrl(`/${product.slug}`),
-    brand: {
-      "@type": "Brand",
+    provider: {
+      "@type": "Organization",
       name: SITE_CONFIG.name,
+      url: SITE_CONFIG.siteUrl,
     },
-    category: "Gıda / Kuruyemiş / Ceviz",
+    areaServed: {
+      "@type": "City",
+      name: SITE_CONFIG.city,
+    },
   };
 }
